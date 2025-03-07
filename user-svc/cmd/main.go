@@ -6,12 +6,14 @@ import (
 	"net"
 	"sync"
 
-	"github.com/gin-gonic/gin"
-	"google.golang.org/grpc"
 	"skill-marketplace/user-svc/db"
 	userGrpc "skill-marketplace/user-svc/grpc"
 	"skill-marketplace/user-svc/handlers"
 	"skill-marketplace/user-svc/proto"
+
+	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
+	"skill-marketplace/user-svc/config"
 )
 
 func startRESTServer(wg *sync.WaitGroup) {
@@ -45,6 +47,11 @@ func startGRPCServer(wg *sync.WaitGroup) {
 }
 
 func main() {
+
+	err := config.LoadConfig()
+	if err != nil {
+		log.Fatalf("Error loading configuration: %v", err)
+	}
 	db.ConnectDatabase()
 
 	var wg sync.WaitGroup

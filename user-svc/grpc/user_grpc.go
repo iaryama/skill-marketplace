@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"log"
 
 	"fmt"
 	"gorm.io/gorm"
@@ -23,7 +22,7 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *user_proto.GetUser
 		if err == gorm.ErrRecordNotFound {
 			return nil, err
 		}
-		log.Println("Database error:", err)
+		fmt.Println("Database error:", err)
 		return nil, err
 	}
 
@@ -41,7 +40,7 @@ func (s *UserServiceServer) GetProvider(ctx context.Context, req *user_proto.Get
 		if err == gorm.ErrRecordNotFound {
 			return nil, err
 		}
-		log.Println("Database error:", err)
+		fmt.Println("Database error:", err)
 		return nil, err
 	}
 

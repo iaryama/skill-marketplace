@@ -5,20 +5,22 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
+	"skill-marketplace/user-svc/config"
 	"skill-marketplace/user-svc/models"
-	"skill-marketplace/user-svc/utils/constants"
 )
 
 var DB *gorm.DB
-var (
-	DBHost     = constants.DBHost
-	DBUser     = constants.DBUser
-	DBPassword = constants.DBPassword
-	DBName     = constants.DBName
-	DBPort     = constants.DBPort
-)
 
 func ConnectDatabase() {
+
+	var (
+		DBHost     = config.AppConfig.DBHost
+		DBUser     = config.AppConfig.DBUser
+		DBPassword = config.AppConfig.DBPassword
+		DBName     = config.AppConfig.DBName
+		DBPort     = config.AppConfig.DBPort
+	)
+
 	// Construct the DSN using environment variables
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
