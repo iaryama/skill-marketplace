@@ -23,7 +23,7 @@ func ConnectDatabase() {
 
 	// Construct the DSN using environment variables
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable",
 		DBHost, DBUser, DBPassword, DBName, DBPort,
 	)
 	fmt.Println(dsn)

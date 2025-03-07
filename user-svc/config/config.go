@@ -14,7 +14,6 @@ type Config struct {
 	DBPassword  string
 	DBName      string
 	DatabaseURL string
-	Port        int
 }
 
 var AppConfig Config
@@ -38,15 +37,6 @@ func LoadConfig() error {
 			return fmt.Errorf("invalid DB_PORT: %w", err)
 		}
 		AppConfig.DBPort = port
-	}
-
-	portStr = os.Getenv("PORT")
-	if portStr != "" {
-		port, err := strconv.Atoi(portStr)
-		if err != nil {
-			return fmt.Errorf("invalid PORT: %w", err)
-		}
-		AppConfig.Port = port
 	}
 
 	return nil
