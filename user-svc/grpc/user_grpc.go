@@ -10,11 +10,11 @@ import (
 )
 
 type UserServiceServer struct {
-	proto.UnimplementedUserServiceServer
+	user.UnimplementedUserServiceServer
 }
 
 // Get User by ID
-func (s *UserServiceServer) GetUser(ctx context.Context, req *proto.GetUserRequest) (*proto.UserResponse, error) {
+func (s *UserServiceServer) GetUser(ctx context.Context, req *user.GetUserRequest) (*user.UserResponse, error) {
 	var user models.User
 	if err := db.DB.First(&user, req.Id).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -24,7 +24,7 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *proto.GetUserReque
 		return nil, err
 	}
 
-	return &proto.UserResponse{
+	return &user.UserResponse{
 		Id:    string(rune(user.ID)),
 		Name:  user.Name,
 		Email: user.Email,
@@ -32,7 +32,7 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *proto.GetUserReque
 }
 
 // Get Provider by ID
-func (s *UserServiceServer) GetProvider(ctx context.Context, req *proto.GetProviderRequest) (*proto.ProviderResponse, error) {
+func (s *UserServiceServer) GetProvider(ctx context.Context, req *user.GetProviderRequest) (*user.ProviderResponse, error) {
 	var provider models.Provider
 	if err := db.DB.First(&provider, req.Id).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -42,7 +42,7 @@ func (s *UserServiceServer) GetProvider(ctx context.Context, req *proto.GetProvi
 		return nil, err
 	}
 
-	return &proto.ProviderResponse{
+	return &user.ProviderResponse{
 		Id:    string(rune(provider.ID)),
 		Type:  string(provider.Type),
 		Name:  provider.Name,
