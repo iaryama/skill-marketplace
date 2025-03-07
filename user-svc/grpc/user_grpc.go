@@ -2,8 +2,11 @@ package grpc
 
 import (
 	"context"
-	"gorm.io/gorm"
 	"log"
+
+	"fmt"
+	"gorm.io/gorm"
+
 	"skill-marketplace/user-svc/db"
 	"skill-marketplace/user-svc/models"
 	"skill-marketplace/user-svc/proto"
@@ -13,7 +16,7 @@ type UserServiceServer struct {
 	user_proto.UnimplementedUserServiceServer
 }
 
-// Get User by ID
+// GetUser retrieves a user by ID
 func (s *UserServiceServer) GetUser(ctx context.Context, req *user_proto.GetUserRequest) (*user_proto.UserResponse, error) {
 	var user models.User
 	if err := db.DB.First(&user, req.Id).Error; err != nil {
@@ -25,13 +28,13 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *user_proto.GetUser
 	}
 
 	return &user_proto.UserResponse{
-		Id:    string(rune(user_proto.ID)),
-		Name:  user_proto.Name,
-		Email: user_proto.Email,
+		Id:    fmt.Sprintf("%d", user.ID),
+		Name:  user.Name,
+		Email: user.Email,
 	}, nil
 }
 
-// Get Provider by ID
+// GetProvider retrieves a provider by ID
 func (s *UserServiceServer) GetProvider(ctx context.Context, req *user_proto.GetProviderRequest) (*user_proto.ProviderResponse, error) {
 	var provider models.Provider
 	if err := db.DB.First(&provider, req.Id).Error; err != nil {
@@ -43,9 +46,9 @@ func (s *UserServiceServer) GetProvider(ctx context.Context, req *user_proto.Get
 	}
 
 	return &user_proto.ProviderResponse{
-		Id:    string(rune(provider.ID)),
+		Id:    fmt.Sprintf("%d", provider.ID),
 		Type:  string(provider.Type),
-		Name:  provider.Name,
+		Name:  *provider.CompanyName,
 		Email: provider.Email,
 	}, nil
 }
