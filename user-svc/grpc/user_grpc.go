@@ -10,11 +10,11 @@ import (
 )
 
 type UserServiceServer struct {
-	user.UnimplementedUserServiceServer
+	user_proto.UnimplementedUserServiceServer
 }
 
 // Get User by ID
-func (s *UserServiceServer) GetUser(ctx context.Context, req *user.GetUserRequest) (*user.UserResponse, error) {
+func (s *UserServiceServer) GetUser(ctx context.Context, req *user_proto.GetUserRequest) (*user_proto.UserResponse, error) {
 	var user models.User
 	if err := db.DB.First(&user, req.Id).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -24,15 +24,15 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *user.GetUserReques
 		return nil, err
 	}
 
-	return &user.UserResponse{
-		Id:    string(rune(user.ID)),
-		Name:  user.Name,
-		Email: user.Email,
+	return &user_proto.UserResponse{
+		Id:    string(rune(user_proto.ID)),
+		Name:  user_proto.Name,
+		Email: user_proto.Email,
 	}, nil
 }
 
 // Get Provider by ID
-func (s *UserServiceServer) GetProvider(ctx context.Context, req *user.GetProviderRequest) (*user.ProviderResponse, error) {
+func (s *UserServiceServer) GetProvider(ctx context.Context, req *user_proto.GetProviderRequest) (*user_proto.ProviderResponse, error) {
 	var provider models.Provider
 	if err := db.DB.First(&provider, req.Id).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -42,7 +42,7 @@ func (s *UserServiceServer) GetProvider(ctx context.Context, req *user.GetProvid
 		return nil, err
 	}
 
-	return &user.ProviderResponse{
+	return &user_proto.ProviderResponse{
 		Id:    string(rune(provider.ID)),
 		Type:  string(provider.Type),
 		Name:  provider.Name,
